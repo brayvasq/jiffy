@@ -16,16 +16,9 @@ git clone git@github.com:brayvasq/jiffy.git
 cd jiffy/
 ```
 
-## Step 2: Build the docker image
+## Step 2: Run the project
 
 ```bash
-docker build -t jiffy .
+docker-compose up
 ```
 
-## Step 3: Run project
-
-Now we have created a custom image. We can run the project using it.
-
-```bash
-docker run -p 3000:3000 jiffy
-```
