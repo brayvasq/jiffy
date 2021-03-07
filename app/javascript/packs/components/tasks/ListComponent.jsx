@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
+import Task from "./Task";
 
 const ListComponent = (props) => {
   const [list, setList] = useState([]);
 
   const createdTasks = (item) => {
     return (
-      <p>
-        {item.id} {item.title} - {item.description} - {item.created_at}
-      </p>
+      <Task
+        key={item.id}
+        id={item.id}
+        title={item.title}
+        description={item.description}
+      />
     );
   };
 
@@ -19,7 +23,7 @@ const ListComponent = (props) => {
   };
 
   useEffect(async () => {
-    const interval = setInterval(getExpenses, 1000);
+    const interval = setInterval(getExpenses, 2_000);
     return () => clearInterval(interval);
   });
 
