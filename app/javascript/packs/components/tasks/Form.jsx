@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const FormComponent = (props) => {
+const Form = (props) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
@@ -10,7 +10,7 @@ const FormComponent = (props) => {
 
   const addItem = async () => {
     const data = { title, description };
-    const url = "http://localhost:3000/api/v1/tasks";
+    const url = "/api/v1/tasks";
     const request = {
       method: "POST",
       body: JSON.stringify(data),
@@ -18,8 +18,7 @@ const FormComponent = (props) => {
         "Content-type": "application/json; charset=UTF-8",
       },
     };
-    const response = await fetch(url, request);
-    console.log(response);
+    await fetch(url, request);
   };
 
   return (
@@ -46,4 +45,4 @@ const FormComponent = (props) => {
   );
 };
 
-export default FormComponent;
+export default Form;

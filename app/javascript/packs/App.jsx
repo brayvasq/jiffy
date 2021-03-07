@@ -1,12 +1,12 @@
 import React from "react";
-import FormComponent from "./components/tasks/FormComponent";
-import ListComponent from "./components/tasks/ListComponent";
+import Form from "./components/tasks/Form";
+import List from "./components/tasks/List";
 
 const App = () => {
   return (
     <div>
-      <FormComponent />
-      <ListComponent />
+      <Form />
+      <List />
     </div>
   );
 };

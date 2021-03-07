@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Task from "./Task";
 
-const ListComponent = (props) => {
+const List = (props) => {
   const [list, setList] = useState([]);
 
   const createdTasks = (item) => {
@@ -16,14 +16,14 @@ const ListComponent = (props) => {
   };
 
   const getExpenses = async () => {
-    const url = "http://localhost:3000/api/v1/tasks";
+    const url = "/api/v1/tasks";
     const request = await fetch(url);
     const response = await request.json();
     setList(response);
   };
 
   useEffect(async () => {
-    const interval = setInterval(getExpenses, 2_000);
+    const interval = setInterval(getExpenses, 10_000);
     return () => clearInterval(interval);
   });
 
@@ -37,4 +37,4 @@ const ListComponent = (props) => {
   );
 };
 
-export default ListComponent;
+export default List;

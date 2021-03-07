@@ -9,7 +9,7 @@ const Task = (props) => {
   const handleChangeDescription = (event) => setDescription(event.target.value);
 
   const updateItem = async () => {
-    const url = `http://localhost:3000/api/v1/tasks/${props.id}`;
+    const url = `/api/v1/tasks/${props.id}`;
     const task = { title, description };
     const data = {
       method: "PUT",
@@ -19,13 +19,12 @@ const Task = (props) => {
       },
     };
     const request = await fetch(url, data);
-    const response = await request.json();
-    console.log(response);
+    await request.json();
     editToggle();
   };
 
   const deleteItem = async () => {
-    const url = `http://localhost:3000/api/v1/tasks/${props.id}`;
+    const url = `/api/v1/tasks/${props.id}`;
     const data = { method: "DELETE" };
     await fetch(url, data);
   };
