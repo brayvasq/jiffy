@@ -30,6 +30,7 @@ gem 'bootsnap', '>= 1.4.4', require: false
 
 group :test do
   gem 'rspec-rails', '~> 4.1.0'
+  gem 'simplecov', require: false
 end
 
 group :development, :test do
