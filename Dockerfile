@@ -23,4 +23,7 @@ RUN yarn install
 
 COPY . /usr/src/app/
 
+# This will execute the following
+# ./docker-entrypoint.sh bin/rails s -b 0.0.0.0
+ENTRYPOINT [ "./docker-entrypoint.sh" ]
 CMD ["bin/rails", "s", "-b", "0.0.0.0"]
