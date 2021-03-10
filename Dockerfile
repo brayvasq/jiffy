@@ -15,6 +15,9 @@ COPY package* /usr/src/app/
 COPY yarn* /usr/src/app/
 
 WORKDIR /usr/src/app
+
+ENV BUNDLE_PATH /gems
+
 RUN bundle install 
 RUN yarn install
 
