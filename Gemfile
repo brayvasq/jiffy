@@ -34,7 +34,6 @@ group :test do
   gem 'factory_bot'
   gem 'rspec-rails', '~> 4.1.0'
   gem 'simplecov', require: false
-  gem 'rails-controller-testing'
 end
 
 group :development, :test do
