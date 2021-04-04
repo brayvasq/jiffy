@@ -3,7 +3,7 @@ FROM ruby:2.7
 LABEL maintainer="brayvasq@gmail.com"
 
 RUN apt-get update -yqq && \ 
-    apt-get install curl && \
+    apt-get install curl -y && \
     curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
     apt-get install -y \
     nodejs
@@ -18,7 +18,7 @@ WORKDIR /usr/src/app
 
 ENV BUNDLE_PATH /gems
 
-RUN bundle install 
+RUN bundle install
 RUN yarn install
 
 COPY . /usr/src/app/
