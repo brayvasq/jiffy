@@ -52,13 +52,9 @@ RSpec.describe Api::V1::TasksController, type: :controller do
       let(:task) { create(:task) }
       let(:params) { { id: task.id, task: { title: 'New name' } } }
 
-      context 'when data is provided is valid' do
-        it { is_expected.to have_http_status(:ok) }
+      it { is_expected.to have_http_status(:ok) }
 
-        it 'is expected to update user' do
-          expect(subject.body).to include('New name')
-        end
-      end
+      it { expect(subject.body).to include('New name') }
     end
   end
 
