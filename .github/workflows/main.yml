@@ -35,7 +35,21 @@ jobs:
       - name: Build image
         run: docker-compose build
 
+      - name: Show files
+        run: ls -l
+
+      - name: Run postgres
+        run: docker-compose up -d database
+
+      - name: Run redis
+        run: docker-compose up -d redis
+
+      - name: Check services
+        run: docker-compose ps
+
       # Setup the database and run specs
       - name: Run specs
-        run: docker-compose run --rm web bundle exec rails db:setup && bundle exec rspec -fd
+        run: docker-compose run --rm web bin/rails db:setup && bin/rails db:migrate && bundle exec rspec -fd
         
+      - name: Stop services
+        run: docker-compose down -v
