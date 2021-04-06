@@ -30,7 +30,10 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.7.2'
+      
       # Builds the image using the docker-compose.yml file
       - name: Build image
         run: docker-compose build
@@ -46,6 +49,21 @@ jobs:
 
       - name: Check services
         run: docker-compose ps
+        
+      - name: Check ruby version
+        run: ruby -v
+        
+      - name: Check container ruby version
+        run: docker-compose run --rm web ruby -v
+        
+      - name: Install rake
+        run: docker-compose run --rm web gem install rake && bundle install
+        
+      - name: Create development log
+        run: touch /home/runner/work/jiffy/jiffy/log/development.log
+        
+      - name: Add permission to development log
+        run: chmod 0666 /home/runner/work/jiffy/jiffy/log/development.log
 
       # Setup the database and run specs
       - name: Run specs
