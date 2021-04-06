@@ -20,11 +20,46 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
+    # Service containers to run with `container-job`
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+          
+      # Label used to access the service container
+      redis:
+        # Docker Hub image
+        image: redis
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 6379:6379
+        # Set health checks to wait until redis has started
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     env:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: jiffy_test
-      DATABASE_HOST: database
+      DATABASE_HOST: localhost
+      POSTGRES_HOST: localhost
+      POSTGRES_PORT: 5432
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -34,30 +69,14 @@ jobs:
         with:
           ruby-version: '2.7.2'
       
-      # Builds the image using the docker-compose.yml file
-      - name: Build image
-        run: docker-compose build
-
       - name: Show files
         run: ls -l
-
-      - name: Run postgres
-        run: docker-compose up -d database
-
-      - name: Run redis
-        run: docker-compose up -d redis
-
-      - name: Check services
-        run: docker-compose ps
         
       - name: Check ruby version
         run: ruby -v
         
-      - name: Check container ruby version
-        run: docker-compose run --rm web ruby -v
-        
       - name: Install rake
-        run: docker-compose run --rm web gem install rake && bundle install
+        run: gem install rake && bundle install
         
       - name: Create development log
         run: touch /home/runner/work/jiffy/jiffy/log/development.log
@@ -67,7 +86,5 @@ jobs:
 
       # Setup the database and run specs
       - name: Run specs
-        run: docker-compose run --rm web bin/rails db:setup && bin/rails db:migrate && bundle exec rspec -fd
+        run: bin/rails db:setup && bin/rails db:migrate && bundle exec rspec -fd
         
-      - name: Stop services
-        run: docker-compose down -v
