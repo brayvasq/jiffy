@@ -3,7 +3,7 @@ FROM ruby:2.7.2
 LABEL maintainer="brayvasq@gmail.com"
 
 RUN apt-get update -yqq && \ 
-    apt-get install curl && \
+    apt-get install curl -y && \
     curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
     apt-get install -y \
     nodejs
@@ -15,9 +15,15 @@ COPY package* /usr/src/app/
 COPY yarn* /usr/src/app/
 
 WORKDIR /usr/src/app
-RUN bundle install 
+
+ENV BUNDLE_PATH /gems
+
+RUN bundle install
 RUN yarn install
 
 COPY . /usr/src/app/
 
+# This will execute the following
+# ./docker-entrypoint.sh bin/rails s -b 0.0.0.0
+ENTRYPOINT [ "./docker-entrypoint.sh" ]
 CMD ["bin/rails", "s", "-b", "0.0.0.0"]
